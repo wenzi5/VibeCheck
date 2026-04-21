@@ -52,10 +52,12 @@ function BrowseEvents() {
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setUserCoords({
+        const coords = {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-        })
+        }
+        console.log('Browser geolocation:', coords)
+        setUserCoords(coords)
         setLocationStatus('')
       },
       () => {
@@ -145,10 +147,21 @@ function BrowseEvents() {
     const registeredEventIdSet = new Set(registeredEventIds)
 
     const eventsWithDistance = events.map((event) => {
-      const eventLatitude = Number(event.latitude)
-      const eventLongitude = Number(event.longitude)
+      const eventLatitude = event.latitude != null ? Number(event.latitude) : NaN
+      const eventLongitude = event.longitude != null ? Number(event.longitude) : NaN
       const hasEventCoordinates = !Number.isNaN(eventLatitude) && !Number.isNaN(eventLongitude)
       const hasUserCoordinates = Boolean(userCoords)
+
+      if (event.event_id <= 3) {
+        console.log(`Event ${event.event_id}:`, {
+          latitude: event.latitude,
+          longitude: event.longitude,
+          eventLatitude,
+          eventLongitude,
+          hasEventCoordinates,
+          hasUserCoordinates,
+        })
+      }
 
       if (!hasEventCoordinates || !hasUserCoordinates) {
         return {
