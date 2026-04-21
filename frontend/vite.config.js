@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://vibe-env.eba-c3b43ikj.us-east-1.elasticbeanstalk.com/',
+        target: 'http://localhost:8080',
         changeOrigin: true,
       },
     },

@@ -1,6 +1,14 @@
 # VibeCheck
 
-> A social mood-sharing app — check and share your vibe with the world.
+> A social event-sharing app — join, create and manage events to connect with your community.
+
+## Website Link
+
+[Click Here](https://main.d3keonkca2xnce.amplifyapp.com)
+
+## ERD
+
+<img width="820" height="822" alt="Group 24 ER diagram" src="https://github.com/user-attachments/assets/84c62d5c-56c0-4311-b7ed-8eae61b3d3ba" />
 
 ## Project Structure
 

@@ -5,6 +5,8 @@ import ProfileMenu from '../components/ProfileMenu.jsx'
 import '../App.css'
 import './MyEvents.css'
 
+const API_BASE = import.meta.env.VITE_API_BASE ?? '/api'
+
 function MyEvents() {
   const navigate = useNavigate()
   const location = useLocation()
@@ -45,7 +47,7 @@ function MyEvents() {
       setCreatedEventsError('')
 
       try {
-        const response = await fetch('/api/events')
+        const response = await fetch(`${API_BASE}/events`)
         const data = await response.json()
         const events = Array.isArray(data)
           ? data.filter((event) => String(event.creator_email ?? '').toLowerCase().trim() === userEmail)
@@ -80,9 +82,9 @@ function MyEvents() {
 
       try {
         const [usersResponse, registrationsResponse, eventsResponse] = await Promise.all([
-          fetch('/api/users'),
-          fetch('/api/registrations'),
-          fetch('/api/events'),
+          fetch(`${API_BASE}/users`),
+          fetch(`${API_BASE}/registrations`),
+          fetch(`${API_BASE}/events`),
         ])
 
         const [usersData, registrationsData, eventsData] = await Promise.all([
@@ -137,7 +139,7 @@ function MyEvents() {
     }
 
     try {
-      const response = await fetch(`/api/events/${eventId}`, {
+      const response = await fetch(`${API_BASE}/events/${eventId}`, {
         method: 'DELETE',
       })
       const data = await response.json()
@@ -163,7 +165,7 @@ function MyEvents() {
     }
 
     try {
-      const response = await fetch(`/api/registrations/${registrationId}`, {
+      const response = await fetch(`${API_BASE}/registrations/${registrationId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
