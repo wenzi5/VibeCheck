@@ -145,3 +145,37 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Inline spinner for distance loading */
+.distance-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.distance-spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(16, 32, 47, 0.15);
+  border-top-color: #0f766e;
+  border-radius: 50%;
+  animation: distance-spin 1s linear infinite;
+}
+
+@keyframes distance-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Simple screen-reader only helper */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}

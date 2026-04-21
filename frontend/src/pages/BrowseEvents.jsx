@@ -21,6 +21,7 @@ function BrowseEvents() {
   const [accessLevelFilter, setAccessLevelFilter] = useState('All')
   const [userCoords, setUserCoords] = useState(null)
   const [locationStatus, setLocationStatus] = useState('')
+  const [isGettingLocation, setIsGettingLocation] = useState(true)
   const [currentUserId, setCurrentUserId] = useState(null)
   const [registeredEventIds, setRegisteredEventIds] = useState([])
   const [signingUpEventId, setSigningUpEventId] = useState(null)
@@ -47,9 +48,11 @@ function BrowseEvents() {
   useEffect(() => {
     if (!navigator.geolocation) {
       setLocationStatus('Geolocation is unavailable in this browser.')
+      setIsGettingLocation(false)
       return
     }
 
+    setIsGettingLocation(true)
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const coords = {
@@ -59,9 +62,11 @@ function BrowseEvents() {
         console.log('Browser geolocation:', coords)
         setUserCoords(coords)
         setLocationStatus('')
+        setIsGettingLocation(false)
       },
       () => {
         setLocationStatus('Enable location to use radius filtering.')
+        setIsGettingLocation(false)
       },
       { enableHighAccuracy: true, timeout: 10000 }
     )
@@ -251,6 +256,7 @@ function BrowseEvents() {
     radiusMiles,
     registeredEventIds,
     userCoords,
+    isGettingLocation,
   ])
 
   async function ensureCurrentUserId() {
@@ -482,7 +488,18 @@ function BrowseEvents() {
                   </div>
                   <div>
                     <dt>Distance</dt>
-                    <dd>{event.distance_miles != null ? `${event.distance_miles.toFixed(1)} miles` : 'Distance unavailable'}</dd>
+                    <dd>
+                      {event.distance_miles != null ? (
+                        `${event.distance_miles.toFixed(1)} miles`
+                      ) : isGettingLocation && event.latitude != null && event.longitude != null ? (
+                        <span className="distance-loading" aria-live="polite">
+                          <span className="distance-spinner" role="status" aria-hidden="true"></span>
+                          <span className="sr-only">Loading distance</span>
+                        </span>
+                      ) : (
+                        'Distance unavailable'
+                      )}
+                    </dd>
                   </div>
                 </dl>
               </article>
